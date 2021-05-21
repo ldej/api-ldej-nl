@@ -92,7 +92,7 @@ func (s *service) GetThings(ctx context.Context, offset int, limit int) ([]db.Th
 	if err != nil {
 		return nil, 0, err
 	}
-	count, err := s.datastoreClient.Count(ctx, query)
+	count, err := s.datastoreClient.Count(ctx, datastore.NewQuery(thingKind))
 	if err != nil {
 		return nil, 0, err
 	}
