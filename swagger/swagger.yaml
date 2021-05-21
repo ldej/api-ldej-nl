@@ -1,0 +1,193 @@
+definitions:
+  app.CreateThing:
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+    required:
+    - name
+    - value
+    type: object
+  app.ThingResponse:
+    properties:
+      created:
+        type: string
+      name:
+        type: string
+      updated:
+        type: string
+      uuid:
+        type: string
+      value:
+        type: string
+    type: object
+  app.ThingsResponse:
+    properties:
+      limit:
+        type: integer
+      page:
+        type: integer
+      things:
+        items:
+          $ref: '#/definitions/app.ThingResponse'
+        type: array
+      total:
+        type: integer
+    type: object
+  app.UpdateThing:
+    properties:
+      value:
+        type: string
+    required:
+    - value
+    type: object
+  httpx.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+info:
+  contact:
+    email: support@ldej.nl
+    name: Laurence de Jong
+    url: https://ldej.nl/
+  description: A thing server
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: api.ldej.nl
+  version: "1.0"
+paths:
+  /thing:
+    get:
+      description: List things
+      operationId: list-things
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit (max 100)
+        in: query
+        name: limit
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.ThingsResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpx.ErrorResponse'
+      summary: List things
+      tags:
+      - Thing
+  /thing/{uuid}:
+    delete:
+      description: Delete a thing
+      operationId: delete-thing
+      parameters:
+      - description: UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.ThingResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpx.ErrorResponse'
+      summary: Delete a thing
+      tags:
+      - Thing
+    get:
+      description: get thing by uuid
+      operationId: get-thing-by-uuid
+      parameters:
+      - description: UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.ThingResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpx.ErrorResponse'
+        "500":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpx.ErrorResponse'
+      summary: Get a thing
+      tags:
+      - Thing
+    put:
+      description: Update a thing
+      operationId: update-thing
+      parameters:
+      - description: UUID
+        in: path
+        name: uuid
+        required: true
+        type: string
+      - description: The body to update a thing
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/app.UpdateThing'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.ThingResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpx.ErrorResponse'
+        "500":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpx.ErrorResponse'
+      summary: Update a thing
+      tags:
+      - Thing
+  /thing/new:
+    post:
+      description: Create a thing
+      operationId: create-thing
+      parameters:
+      - description: The body to create a thing
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/app.CreateThing'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.ThingResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpx.ErrorResponse'
+        "500":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/httpx.ErrorResponse'
+      summary: Create a thing
+      tags:
+      - Thing
+swagger: "2.0"
