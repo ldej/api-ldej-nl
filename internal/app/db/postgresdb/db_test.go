@@ -8,7 +8,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/suite"
 
 	"github.com/ldej/api-ldej-nl/internal/app/db"
@@ -34,13 +33,7 @@ func (s *Suite) SetupSuite() {
 
 	logger := log.NewJSONLogger(os.Stderr, "", true)
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s sslmode=disable", host, port, user, pass)
-	pg, err := sqlx.Connect("postgres", psqlInfo)
-	s.NoError(err)
-
-	_, err = pg.ExecContext(s.ctx, `DROP DATABASE IF EXISTS `+dbName)
-	s.NoError(err)
-	_, err = pg.ExecContext(s.ctx, `CREATE DATABASE `+dbName)
+	err := postgres.CreateDB(s.ctx, host, port, user, pass, dbName, true)
 	s.NoError(err)
 
 	err = postgres.ApplyMigrations(
