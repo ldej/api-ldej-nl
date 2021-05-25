@@ -123,7 +123,7 @@ func (s *Server) UpdateThing(w http.ResponseWriter, r *http.Request) {
 // @ID delete-thing
 // @Tags Thing
 // @Param uuid path string true "UUID"
-// @Success 200 {object} ThingResponse
+// @Success 200 "Empty response"
 // @Failure 500 {object} httpx.ErrorResponse
 // @Router /thing/{uuid} [delete]
 func (s *Server) DeleteThing(w http.ResponseWriter, r *http.Request) {

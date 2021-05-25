@@ -214,10 +214,7 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/app.ThingResponse"
-                        }
+                        "description": "Empty response"
                     },
                     "500": {
                         "description": "Internal Server Error",
